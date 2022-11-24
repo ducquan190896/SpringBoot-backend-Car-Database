@@ -20,11 +20,16 @@ import lombok.*;
 @Entity(name = "Owner")
 @Table(name = "owner")
 public class Owner {
-    @Id
    
+    @Id
+    @SequenceGenerator(
+        name = "owner_sequence",
+        sequenceName = "owner_sequence",
+        allocationSize = 1
+    )
     @GeneratedValue(
-        strategy = GenerationType.IDENTITY
-        
+        strategy = GenerationType.SEQUENCE,
+        generator = "owner_sequence"
     )
     @Column(name = "id", updatable = false)
     private Long id;
@@ -45,8 +50,8 @@ public class Owner {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @JsonIgnore
-     @JsonBackReference
+   @JsonIgnore
     @OneToMany(mappedBy = "carOwner", fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     private List<Car> cars = new ArrayList<>();
+    
 }

@@ -32,7 +32,7 @@ public class Role {
     private Long id;
 
     @NonNull
-    @NotBlank(message = "role cannot be blank")
+    
     @Column(name = "roleType", nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;

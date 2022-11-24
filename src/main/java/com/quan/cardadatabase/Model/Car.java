@@ -19,14 +19,17 @@ import lombok.*;
 @Entity(name = "Card") 
 public class Car {
     @Id
-   
-    @GeneratedValue(
-        strategy = GenerationType.IDENTITY
-        
+    @SequenceGenerator(
+        name = "car_sequence",
+        sequenceName = "car_sequence",
+        allocationSize = 1
     )
-   
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "car_sequence"
+    )
     @Column(name = "id", updatable = false)
-    private long id;
+    private Long id;
 
     @NonNull
     @NotBlank(message = "brand cannot be blank")
@@ -49,22 +52,22 @@ public class Car {
     private String registerNumber;
 
     @NonNull
-    // @Past
-    @NotBlank(message = "year cannot be blank")
+    //@Past
     @Column(name = "year", nullable = false)
     private int year;
 
     @NonNull
     @Min(value = 0, message = "price cannot be lower than 0")
-    @NotBlank(message = "price cannot be blank")
     @Column(name = "price", nullable = false)
     private double price;
 
-    @JsonManagedReference
+   
     @NonNull
-    @ManyToOne(cascade = {CascadeType.MERGE,}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @ManyToOne( cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "carOwner_id", referencedColumnName = "id")
     private Owner carOwner;
+    
+  
 
     @Override
     public String toString() {
